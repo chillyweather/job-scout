@@ -12,6 +12,7 @@ from job_scout.config import Config
 from job_scout.http import Fetcher, fetch_json
 from job_scout.known import KnownIndex
 from job_scout.models import Board, Posting
+from job_scout.permit import classify
 from job_scout.state import State
 
 MAX_WORKERS = 6
@@ -28,6 +29,7 @@ class BoardResult:
 class RunReport:
     run_at: str
     mode: str
+    profile: str = "default"
     boards_total: int = 0
     boards_ok: int = 0
     failed_boards: list[dict[str, Any]] = field(default_factory=list)
@@ -40,6 +42,7 @@ class RunReport:
         return {
             "run_at": self.run_at,
             "mode": self.mode,
+            "profile": self.profile,
             "boards": {"total": self.boards_total, "ok": self.boards_ok, "failed": self.failed_boards},
             "counts": self.counts,
             "postings": self.postings,
@@ -79,7 +82,7 @@ def run(
     """
     now = now or now_iso()
     mode = "baseline" if baseline else ("dry-run" if dry_run else "poll")
-    report = RunReport(run_at=now, mode=mode, boards_total=len(config.watchlist))
+    report = RunReport(run_at=now, mode=mode, profile=config.name, boards_total=len(config.watchlist))
     known = KnownIndex.from_files(config.known_files)
     counts = dict.fromkeys(
         [
@@ -87,6 +90,7 @@ def run(
             "outside_location",
             "title_filtered",
             "known_in_notes",
+            "permit_excluded",
             "already_reported",
             "new",
             "updated",
@@ -134,6 +138,11 @@ def run(
                 report.known.append({"company": posting.company, "title": posting.title, "reason": reason})
                 continue
 
+            permit = classify(posting.description) if config.permit_tagging else None
+            if permit is not None and permit.tag in config.permit_exclude:
+                counts["permit_excluded"] += 1
+                continue
+
             if previous is not None and previous["closed_at"]:
                 change = "reopened"
             elif previous is None or not previous["reported_hash"]:
@@ -155,6 +164,8 @@ def run(
             item["description"] = posting.description[: config.max_description_chars]
             item["change"] = change
             item["first_poll_of_board"] = first_poll
+            if permit is not None:
+                item["work_permit"] = permit.to_dict()
             if previous is not None and previous["reported_at"]:
                 item["previously_reported_at"] = previous["reported_at"]
             report.postings.append(item)

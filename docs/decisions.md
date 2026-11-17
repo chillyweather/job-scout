@@ -41,3 +41,20 @@ Worth adding once the trial shows the poller earns its place.
 ## 7. Standard library only (2026-11-17)
 
 urllib, sqlite3 and json cover the job. No dependency means nothing to install on the server beyond the package.
+
+## 8. Europe is a second profile, not a mode (2026-11-17)
+
+Dima wants a low-cost look at European roles, not a second main track.
+A separate config with its own state keeps the Israel report unchanged and lets the two run on different schedules (daily and weekly).
+The Europe profile reads both watchlists, because several Israeli companies hire in Europe too.
+
+Locations are judged one at a time, so a role listed in both New York and London passes, and bare "Remote" does not, since on these boards it usually means the US.
+
+## 9. Work permission is a tag with its evidence, not a verdict (2026-11-17)
+
+Without an EU passport, whether a posting allows hiring him is the deciding question, and most postings never say.
+Code reads the description for blockers, offers and contract hiring, and attaches the sentence it matched.
+Only an explicit blocker removes a posting; everything else stays, tagged.
+
+The first version treated any blocker as decisive. On the first real board checked (n8n), every posting said "We can sponsor visas to Germany; for any other country, you need to have existing right to work", and all of them were removed.
+That sentence is an offer, so a blocker next to an explicit sponsorship offer is now `conditional` and stays in the report.

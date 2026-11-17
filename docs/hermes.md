@@ -31,9 +31,24 @@ Add this as the first step of the existing sweep prompt:
 >
 > Never change the application tracker.
 
+## Weekly: the Europe glance
+
+Europe is a side track, so it runs once a week, separately from the daily sweep:
+
+> Run `job-scout --config config.europe.json poll` in the job-scout folder and read its JSON.
+> Every posting has a `work_permit` tag and the sentence it came from.
+> Postings tagged `permit_required` were already removed.
+>
+> 1. Put `sponsors`, `conditional` and `remote_contract` postings first. For `conditional`, check that the role's country is one the posting sponsors.
+> 2. Judge fit as for Israel, and add one line on the permit situation in plain words.
+> 3. Write a short weekly summary, not inbox entries: Europe leads go into the inbox only when Dima picks one.
+> 4. Report failed boards as in the daily sweep.
+
+The first Europe run reports every matching open role. Run it with `--dry-run --format markdown` first to see the size, and `--baseline` if it is too long.
+
 ## Weekly: growing the watchlist
 
-Once a week, Hermes looks for Israeli companies hiring for the target role shapes whose boards are on Greenhouse, Lever or Ashby, and proposes additions in the run summary with company, vendor and slug.
+Once a week, Hermes looks for companies hiring for the target role shapes whose boards are on Greenhouse, Lever or Ashby, and proposes additions in the run summary with company, vendor, slug and which list they belong to: `watchlist.json` for Israel, `watchlist.europe.json` for European and remote-first companies.
 Dima confirms each before it goes into `watchlist.json`.
 Search proposes boards; it never creates leads directly.
 

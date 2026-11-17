@@ -43,10 +43,19 @@ class Filters:
         )
 
     def location_ok(self, posting: Posting) -> bool:
-        text = normalize(" | ".join(posting.all_locations))
-        if self._loc_out and self._loc_out.search(text):
-            return False
-        return self._loc_in is None or bool(self._loc_in.search(text))
+        """True when at least one of the posting's locations is included and not excluded.
+
+        Judged per location, so "Remote - US; London" passes a Europe profile that
+        excludes "US", while "Remote - US" alone does not.
+        """
+        locations = posting.all_locations or [""]
+        for location in locations:
+            text = normalize(location)
+            if self._loc_out and self._loc_out.search(text):
+                continue
+            if self._loc_in is None or self._loc_in.search(text):
+                return True
+        return False
 
     def title_reason(self, posting: Posting) -> str:
         """Empty string when the title passes, otherwise why it did not."""

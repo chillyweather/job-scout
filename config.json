@@ -1,4 +1,5 @@
 {
+  "name": "israel",
   "watchlist": "watchlist.json",
   "state_db": "state/job-scout.sqlite",
   "known_files": [],
@@ -85,7 +86,10 @@
         "sales engineer",
         "presales",
         "pre-sales",
-        "prompt"
+        "prompt",
+        "product engineer",
+        "solutions architect",
+        "solution architect"
       ],
       "exclude": [
         "director",

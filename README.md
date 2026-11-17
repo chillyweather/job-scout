@@ -44,7 +44,7 @@ cd job-scout
 python3 -m pip install -e .
 ```
 
-Point it at your notes in `config.local.json` (gitignored, overrides keys of `config.json`):
+Point it at your notes in `config.local.json` (gitignored, overrides top-level keys of every profile):
 
 ```bash
 cp config.local.example.json config.local.json   # then edit the two paths
@@ -84,9 +84,40 @@ The shape, with made-up numbers:
 
 `first_poll_of_board: true` means the board was added recently, so "new" there means new to you, not necessarily new on the market. Check `published_at`.
 
+## Profiles: Israel and Europe
+
+Each profile is its own config file with its own state, so the two reports never mix.
+
+| Profile | Config | Boards | State | Run |
+| --- | --- | --- | --- | --- |
+| Israel (main) | `config.json` | `watchlist.json` | `state/job-scout.sqlite` | daily |
+| Europe (side glance) | `config.europe.json` | `watchlist.json` + `watchlist.europe.json` | `state/job-scout-europe.sqlite` | weekly |
+
+```bash
+job-scout --config config.europe.json poll --format markdown
+```
+
+The Europe profile reads every location of a posting separately, so "Remote - US; London" passes and "Remote - US" alone does not.
+Bare "Remote" does not pass: it usually means the US.
+
+It also tags each posting with what the description says about the right to work, because working in Europe without an EU passport is the real constraint:
+
+| Tag | Meaning | In the report? |
+| --- | --- | --- |
+| `sponsors` | Visa sponsorship or relocation support offered | yes |
+| `conditional` | Sponsors in some cases, requires a permit in others ("we sponsor visas to Germany; elsewhere you need the right to work") | yes |
+| `remote_contract` | Contractor, employer of record, or work from anywhere | yes |
+| `residence_required` | Remote, but only from inside named countries | yes |
+| `unstated` | Nothing found; most postings | yes |
+| `permit_required` | Must already have the right to work, or no sponsorship | no, counted only |
+
+Each tag carries the sentence it was read from, so the agent or you can check it.
+The tag reports what the text says; it is not advice on immigration.
+Which tags are dropped is set in `work_permit.exclude`.
+
 ## Adding companies
 
-Add an entry to `watchlist.json` and run `job-scout check`.
+Add an entry to `watchlist.json` (or `watchlist.europe.json`) and run `job-scout check` (with `--config config.europe.json` for the Europe list).
 The slug is the part of the board URL after the vendor host: `job-boards.greenhouse.io/<slug>`, `jobs.lever.co/<slug>`, `jobs.ashbyhq.com/<slug>`.
 For boards on `jobs.eu.lever.co`, add `"region": "eu"`.
 

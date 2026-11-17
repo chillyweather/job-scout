@@ -23,12 +23,13 @@ def _markdown(report: dict[str, Any]) -> str:
     counts = report["counts"]
     boards = report["boards"]
     lines = [
-        f"# job-scout {report['mode']} — {report['run_at']}",
+        f"# job-scout {report['profile']} {report['mode']} — {report['run_at']}",
         "",
         f"Boards: {boards['ok']} of {boards['total']} read. "
         f"New {counts['new']}, updated {counts['updated']}, reopened {counts['reopened']}. "
         f"Skipped: {counts['outside_location']} outside location, {counts['title_filtered']} by title, "
-        f"{counts['known_in_notes']} already in notes.",
+        f"{counts['known_in_notes']} already in notes"
+        + (f", {counts['permit_excluded']} by work permit." if counts.get("permit_excluded") else "."),
     ]
     if boards["failed"]:
         lines += ["", "## Boards that failed", ""]
@@ -37,7 +38,10 @@ def _markdown(report: dict[str, Any]) -> str:
         lines += ["", "## Postings", ""]
         for p in report["postings"]:
             published = (p["published_at"] or "")[:10] or "no date"
-            lines.append(f"- [{p['company']} — {p['title']}]({p['url']}) · {p['location']} · {published} · {p['change']}")
+            permit = f" · permit: {p['work_permit']['tag']}" if p.get("work_permit") else ""
+            lines.append(f"- [{p['company']} — {p['title']}]({p['url']}) · {p['location']} · {published} · {p['change']}{permit}")
+            if p.get("work_permit", {}).get("evidence"):
+                lines.append(f"  > {p['work_permit']['evidence']}")
     if report["closed_since_last_run"]:
         lines += ["", "## Closed since last run (previously reported)", ""]
         lines += [f"- {c['company']} — {c['title']}" for c in report["closed_since_last_run"]]
