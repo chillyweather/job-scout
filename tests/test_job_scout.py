@@ -193,7 +193,7 @@ class RunTests(unittest.TestCase):
 
 class ConfigTests(unittest.TestCase):
     def test_repo_config_and_watchlist_load(self):
-        cfg = config_module.load(REPO / "config.json")
+        cfg = config_module.load(REPO / "config.json", use_local=False)
         self.assertGreater(len(cfg.watchlist), 30)
         self.assertEqual(len({b.key for b in cfg.watchlist}), len(cfg.watchlist))
 

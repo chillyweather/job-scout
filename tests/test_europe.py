@@ -64,7 +64,7 @@ class PermitTests(unittest.TestCase):
 
 class EuropeConfigTests(unittest.TestCase):
     def setUp(self):
-        self.cfg = config_module.load(REPO / "config.europe.json")
+        self.cfg = config_module.load(REPO / "config.europe.json", use_local=False)
 
     def test_loads_both_watchlists_and_tags(self):
         keys = {b.key for b in self.cfg.watchlist}
@@ -76,7 +76,7 @@ class EuropeConfigTests(unittest.TestCase):
         self.assertTrue(str(self.cfg.state_db).endswith("job-scout-europe.sqlite"))
 
     def test_israel_profile_is_unchanged(self):
-        cfg = config_module.load(REPO / "config.json")
+        cfg = config_module.load(REPO / "config.json", use_local=False)
         self.assertEqual(cfg.name, "israel")
         self.assertFalse(cfg.permit_tagging)
 
@@ -123,7 +123,7 @@ class EuropeRunTests(unittest.TestCase):
 
     def test_tags_and_excludes(self):
         with tempfile.TemporaryDirectory() as tmp:
-            cfg = config_module.load(REPO / "config.europe.json", state_db=Path(tmp) / "s.sqlite")
+            cfg = config_module.load(REPO / "config.europe.json", state_db=Path(tmp) / "s.sqlite", use_local=False)
             cfg.watchlist = [N8N]
             cfg.known_files = []
             state = State(cfg.state_db)

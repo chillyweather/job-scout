@@ -73,7 +73,13 @@ def _load_one_watchlist(path: Path, seen: set[str]) -> list[Board]:
     return boards
 
 
-def load(path: Path, extra_known: list[Path] | None = None, state_db: Path | None = None) -> Config:
+def load(
+    path: Path,
+    extra_known: list[Path] | None = None,
+    state_db: Path | None = None,
+    *,
+    use_local: bool = True,
+) -> Config:
     """Paths inside the config resolve against the config file's folder.
 
     ``config.local.json`` beside it, when present, overrides top-level keys of every
@@ -83,7 +89,7 @@ def load(path: Path, extra_known: list[Path] | None = None, state_db: Path | Non
     """
     data = _read_json(path)
     local = path.with_name("config.local.json")
-    if local.exists():
+    if use_local and local.exists():
         data.update(_read_json(local))
     base = path.parent
 
