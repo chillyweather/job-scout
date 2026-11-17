@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "job-scout"
+version = "0.1.0"
+description = "Polls company job boards directly and reports postings that are new since the last run."
+requires-python = ">=3.10"
+dependencies = []
+
+[project.scripts]
+job-scout = "job_scout.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["job_scout*"]

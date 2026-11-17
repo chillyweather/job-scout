@@ -1,0 +1,8 @@
+{"jobs": [
+  {"id": "bcca831c-e420-46bf-8533-1dc912025732", "title": "Deployment Strategist, Israel", "location": "Tel Aviv", "secondaryLocations": [],
+   "publishedAt": "2026-11-14T08:00:00.000+00:00", "isListed": true, "workplaceType": "OnSite", "jobUrl": "https://jobs.ashbyhq.com/wonderful/bcca831c-e420-46bf-8533-1dc912025732",
+   "descriptionPlain": "Make AI deployments land.", "department": "S&M", "address": {"postalAddress": {"addressCountry": "Israel"}}},
+  {"id": "c76a5995-13f5-4b3e-a794-520baef3210f", "title": "Deployment Strategist", "location": "Greece", "secondaryLocations": [{"location": "Remote - Israel", "address": {"postalAddress": {"addressCountry": "Israel"}}}],
+   "publishedAt": "2026-01-14T14:46:59.899+00:00", "isListed": true, "jobUrl": "https://jobs.ashbyhq.com/wonderful/c76a", "descriptionPlain": "Athens or Israel."},
+  {"id": "hidden", "title": "Forward Deployed Engineer", "location": "Tel Aviv", "isListed": false, "jobUrl": "https://jobs.ashbyhq.com/wonderful/hidden", "descriptionPlain": ""}
+]}

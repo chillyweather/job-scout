@@ -1,0 +1,7 @@
+[
+  {"id": "a1ba108a-ab97-42c5-971e-93c12f86226f", "text": "Technical Solution Engineer", "hostedUrl": "https://jobs.lever.co/walkme/a1ba108a-ab97-42c5-971e-93c12f86226f",
+   "createdAt": 1762160000000, "categories": {"location": "Tel Aviv", "team": "Customer Success", "allLocations": ["Tel Aviv"]},
+   "workplaceType": "hybrid", "descriptionPlain": "Help customers adopt WalkMe.", "lists": [{"text": "Requirements", "content": "<li>JavaScript</li><li>APIs</li>"}], "additionalPlain": "SAP company."},
+  {"id": "b2", "text": "Full Stack Developer", "hostedUrl": "https://jobs.lever.co/walkme/b2", "createdAt": 1763300000000,
+   "categories": {"location": "Bangalore, India", "allLocations": ["Bangalore, India"]}, "descriptionPlain": "x"}
+]

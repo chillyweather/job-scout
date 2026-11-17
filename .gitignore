@@ -1,0 +1,6 @@
+__pycache__/
+*.egg-info/
+.venv/
+state/
+*.sqlite
+config.local.json

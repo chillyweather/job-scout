@@ -1,0 +1,231 @@
+{
+  "_comment": "Seeded 2026-11-17 from board links in the application tracker, the leads inbox and market notes, plus four boards found by one Exa search. All 43 slugs were fetched once on 2026-11-17: 40 answered with jobs, 3 are disabled with a note. Run `job-scout check` after editing. Set \"disabled\": true to pause a board.",
+  "boards": [
+    {
+      "company": "4M",
+      "ats": "ashby",
+      "slug": "4m"
+    },
+    {
+      "company": "Aidoc",
+      "ats": "greenhouse",
+      "slug": "aidocmedical",
+      "note": "found by Exa 2026-11-17"
+    },
+    {
+      "company": "Aquant",
+      "ats": "ashby",
+      "slug": "Aquant"
+    },
+    {
+      "company": "At-Bay",
+      "ats": "greenhouse",
+      "slug": "atbayjobs"
+    },
+    {
+      "company": "Augury",
+      "ats": "greenhouse",
+      "slug": "augury"
+    },
+    {
+      "company": "BioCatch",
+      "ats": "lever",
+      "slug": "biocatch"
+    },
+    {
+      "company": "Camunda",
+      "ats": "ashby",
+      "slug": "camunda"
+    },
+    {
+      "company": "Chamelio",
+      "ats": "ashby",
+      "slug": "chamelio"
+    },
+    {
+      "company": "Cloudinary",
+      "ats": "lever",
+      "slug": "cloudinary"
+    },
+    {
+      "company": "CYE",
+      "ats": "lever",
+      "slug": "CYE"
+    },
+    {
+      "company": "Echo",
+      "ats": "ashby",
+      "slug": "echo.ai",
+      "note": "found by Exa 2026-11-17"
+    },
+    {
+      "company": "Eleos",
+      "ats": "greenhouse",
+      "slug": "eleoshealth"
+    },
+    {
+      "company": "Embed",
+      "ats": "greenhouse",
+      "slug": "embed",
+      "disabled": true,
+      "note": "Greenhouse API answered not found on 2026-11-17; find the current board"
+    },
+    {
+      "company": "Figma",
+      "ats": "greenhouse",
+      "slug": "figma"
+    },
+    {
+      "company": "Forter",
+      "ats": "greenhouse",
+      "slug": "forter"
+    },
+    {
+      "company": "GitLab",
+      "ats": "greenhouse",
+      "slug": "gitlab"
+    },
+    {
+      "company": "Gong",
+      "ats": "greenhouse",
+      "slug": "gongio"
+    },
+    {
+      "company": "Guardz",
+      "ats": "greenhouse",
+      "slug": "guardz"
+    },
+    {
+      "company": "Guidde",
+      "ats": "greenhouse",
+      "slug": "guidde"
+    },
+    {
+      "company": "Harmony",
+      "ats": "ashby",
+      "slug": "harmony",
+      "note": "found by Exa 2026-11-17"
+    },
+    {
+      "company": "Hello Heart",
+      "ats": "greenhouse",
+      "slug": "helloheart"
+    },
+    {
+      "company": "Lakera",
+      "ats": "ashby",
+      "slug": "lakera.ai",
+      "disabled": true,
+      "note": "Ashby board empty on 2026-11-17"
+    },
+    {
+      "company": "Lemonade",
+      "ats": "ashby",
+      "slug": "lemonade"
+    },
+    {
+      "company": "Lightrun",
+      "ats": "greenhouse",
+      "slug": "lightrun"
+    },
+    {
+      "company": "Loora",
+      "ats": "ashby",
+      "slug": "loora"
+    },
+    {
+      "company": "Melio",
+      "ats": "greenhouse",
+      "slug": "melio",
+      "disabled": true,
+      "note": "Greenhouse board empty on 2026-11-17; Melio may have moved ATS"
+    },
+    {
+      "company": "Mobileye",
+      "ats": "lever",
+      "slug": "mobileye",
+      "region": "eu"
+    },
+    {
+      "company": "monday.com",
+      "ats": "ashby",
+      "slug": "monday.com"
+    },
+    {
+      "company": "Monticello",
+      "ats": "greenhouse",
+      "slug": "monticelloam"
+    },
+    {
+      "company": "Moon Active",
+      "ats": "ashby",
+      "slug": "moonactive"
+    },
+    {
+      "company": "Neo Security",
+      "ats": "greenhouse",
+      "slug": "neosecurityinc"
+    },
+    {
+      "company": "NEXT Insurance",
+      "ats": "greenhouse",
+      "slug": "nextinsurance66"
+    },
+    {
+      "company": "NiCE",
+      "ats": "greenhouse",
+      "slug": "nice"
+    },
+    {
+      "company": "Payoneer",
+      "ats": "greenhouse",
+      "slug": "payoneer"
+    },
+    {
+      "company": "Pendo",
+      "ats": "greenhouse",
+      "slug": "pendo"
+    },
+    {
+      "company": "Reindeer",
+      "ats": "ashby",
+      "slug": "reindeer-ai"
+    },
+    {
+      "company": "Sauce",
+      "ats": "lever",
+      "slug": "Sauce"
+    },
+    {
+      "company": "Similarweb",
+      "ats": "greenhouse",
+      "slug": "similarweb"
+    },
+    {
+      "company": "Tomorrow.io",
+      "ats": "greenhouse",
+      "slug": "tomorrow"
+    },
+    {
+      "company": "Unframe",
+      "ats": "greenhouse",
+      "slug": "unframe"
+    },
+    {
+      "company": "Via",
+      "ats": "greenhouse",
+      "slug": "via"
+    },
+    {
+      "company": "WalkMe",
+      "ats": "lever",
+      "slug": "walkme"
+    },
+    {
+      "company": "Wonderful",
+      "ats": "ashby",
+      "slug": "wonderful",
+      "note": "found by Exa 2026-11-17"
+    }
+  ]
+}
