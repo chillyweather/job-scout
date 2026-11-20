@@ -32,6 +32,8 @@ watchlist.json ─► fetch each board ─► location + title filters ─► di
 4. **State.** SQLite records first seen, last seen, closed, and the content hash at the time a role was reported. A role is reported again only when its title, locations or description change, or when it reopens.
 5. **Your notes.** Roles whose job id appears in the tracker or the leads inbox, or whose company and exact title share a line there, are left out and counted.
 
+6. **Standing rules.** Companies in `blocked_companies` are dropped. Roles that require native or high-level Hebrew are dropped and listed once under `excluded_by_rule` with the sentence that matched. Every kept posting carries a `hebrew` tag, and `employer_in_tracker` when the tracker already holds an application at that company (one role per company). See `docs/decisions.md` #10.
+
 No model is called. Judging fit is the agent's job, on the handful of roles that survive.
 
 ## Install
@@ -76,8 +78,9 @@ The shape, with made-up numbers:
   "mode": "poll",
   "boards": {"total": 40, "ok": 39, "failed": [{"company": "...", "board": "greenhouse:slug", "error": "...", "consecutive_failures": 1}]},
   "counts": {"fetched": 2140, "outside_location": 1610, "title_filtered": 470, "known_in_notes": 12, "already_reported": 40, "new": 6, "updated": 1, "reopened": 1, "closed": 9},
-  "postings": [{"key": "...", "company": "...", "title": "...", "location": "...", "url": "...", "published_at": "...", "description": "...", "change": "new", "first_poll_of_board": false}],
+  "postings": [{"key": "...", "company": "...", "title": "...", "location": "...", "url": "...", "published_at": "...", "description": "...", "change": "new", "first_poll_of_board": false, "hebrew": {"tag": "unstated", "evidence": ""}, "employer_in_tracker": "| 131 | Guardz — ... |"}],
   "known_in_notes": [{"company": "...", "title": "...", "reason": "job id found in notes"}],
+  "excluded_by_rule": [{"company": "...", "title": "...", "url": "...", "rule": "hebrew:high_required", "evidence": "Native Hebrew and English"}],
   "closed_since_last_run": [{"company": "...", "title": "...", "url": "..."}]
 }
 ```

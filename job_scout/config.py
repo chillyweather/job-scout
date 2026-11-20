@@ -7,6 +7,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
+from job_scout import hebrew as hebrew_module
 from job_scout import permit as permit_module
 from job_scout.adapters import ADAPTERS
 from job_scout.filters import Filters
@@ -27,6 +28,9 @@ class Config:
     name: str = "default"
     permit_tagging: bool = False
     permit_exclude: list[str] = field(default_factory=list)
+    hebrew_tagging: bool = False
+    hebrew_exclude: list[str] = field(default_factory=list)
+    blocked_companies: list[str] = field(default_factory=list)
 
 
 def _read_json(path: Path) -> Any:
@@ -104,6 +108,10 @@ def load(
     unknown_tags = [t for t in permit.get("exclude", []) if t not in permit_module.TAGS]
     if unknown_tags:
         raise ConfigError(f"{path}: unknown work_permit tag(s): {', '.join(unknown_tags)}")
+    hebrew = data.get("hebrew", {})
+    unknown_hebrew = [t for t in hebrew.get("exclude", []) if t not in hebrew_module.TAGS]
+    if unknown_hebrew:
+        raise ConfigError(f"{path}: unknown hebrew tag(s): {', '.join(unknown_hebrew)}")
     missing = [str(p) for p in known if not p.exists()]
     if missing:
         raise ConfigError("known file not found: " + ", ".join(missing))
@@ -116,4 +124,7 @@ def load(
         name=data.get("name", path.stem),
         permit_tagging=bool(permit.get("tag", False)),
         permit_exclude=list(permit.get("exclude", [])),
+        hebrew_tagging=bool(hebrew.get("tag", False)),
+        hebrew_exclude=list(hebrew.get("exclude", [])),
+        blocked_companies=list(data.get("blocked_companies", [])),
     )

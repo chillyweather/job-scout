@@ -7,6 +7,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from typing import Any
 
+from job_scout import hebrew as hebrew_module
 from job_scout.adapters import ADAPTERS
 from job_scout.config import Config
 from job_scout.http import Fetcher, fetch_json
@@ -14,6 +15,7 @@ from job_scout.known import KnownIndex
 from job_scout.models import Board, Posting
 from job_scout.permit import classify
 from job_scout.state import State
+from job_scout.text import normalize
 
 MAX_WORKERS = 6
 
@@ -36,6 +38,7 @@ class RunReport:
     counts: dict[str, int] = field(default_factory=dict)
     postings: list[dict[str, Any]] = field(default_factory=list)
     known: list[dict[str, str]] = field(default_factory=list)
+    excluded: list[dict[str, str]] = field(default_factory=list)
     closed: list[dict[str, str]] = field(default_factory=list)
 
     def to_dict(self) -> dict[str, Any]:
@@ -47,6 +50,7 @@ class RunReport:
             "counts": self.counts,
             "postings": self.postings,
             "known_in_notes": self.known,
+            "excluded_by_rule": self.excluded,
             "closed_since_last_run": self.closed,
         }
 
@@ -90,6 +94,8 @@ def run(
             "outside_location",
             "title_filtered",
             "known_in_notes",
+            "blocked_company",
+            "hebrew_excluded",
             "permit_excluded",
             "already_reported",
             "new",
@@ -99,6 +105,8 @@ def run(
         ],
         0,
     )
+
+    blocked = {normalize(c) for c in config.blocked_companies}
 
     for result in fetch_all(config.watchlist, fetcher):
         board = result.board
@@ -138,6 +146,10 @@ def run(
                 report.known.append({"company": posting.company, "title": posting.title, "reason": reason})
                 continue
 
+            if normalize(posting.company) in blocked:
+                counts["blocked_company"] += 1
+                continue
+
             permit = classify(posting.description) if config.permit_tagging else None
             if permit is not None and permit.tag in config.permit_exclude:
                 counts["permit_excluded"] += 1
@@ -158,6 +170,18 @@ def run(
                 counts["already_reported"] += 1
                 continue
 
+            hebrew = hebrew_module.classify(posting.description) if config.hebrew_tagging else None
+            if hebrew is not None and hebrew.tag in config.hebrew_exclude:
+                # Recorded as reported so it is listed once, not every day. Listed, not silent:
+                # a wrong match must be visible to the person.
+                state.mark_reported(posting.key, content_hash, now)
+                counts["hebrew_excluded"] += 1
+                report.excluded.append(
+                    {"company": posting.company, "title": posting.title, "url": posting.url,
+                     "rule": f"hebrew:{hebrew.tag}", "evidence": hebrew.evidence}
+                )
+                continue
+
             counts[change] += 1
             state.mark_reported(posting.key, content_hash, now)
             item = posting.to_dict()
@@ -166,6 +190,11 @@ def run(
             item["first_poll_of_board"] = first_poll
             if permit is not None:
                 item["work_permit"] = permit.to_dict()
+            if hebrew is not None:
+                item["hebrew"] = hebrew.to_dict()
+            employer = known.employer_line(posting.company)
+            if employer:
+                item["employer_in_tracker"] = employer
             if previous is not None and previous["reported_at"]:
                 item["previously_reported_at"] = previous["reported_at"]
             report.postings.append(item)

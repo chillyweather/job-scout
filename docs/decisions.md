@@ -58,3 +58,13 @@ Only an explicit blocker removes a posting; everything else stays, tagged.
 
 The first version treated any blocker as decisive. On the first real board checked (n8n), every posting said "We can sponsor visas to Germany; for any other country, you need to have existing right to work", and all of them were removed.
 That sentence is an offer, so a blocker next to an explicit sponsorship offer is now `conditional` and stays in the report.
+
+## 10. Standing rules from the tracker live in code (2026-11-20)
+
+Three of Dima's rules are mechanical enough to check before the agent sees a posting:
+
+- **Blocked companies** (`blocked_companies`): never report them. Unframe, after its September rejection.
+- **High-level Hebrew** (`hebrew`): rule adopted 16 September 2026, skip openings that declare native or high-level Hebrew. Dropped postings are listed once under `excluded_by_rule` with the matching sentence, because a regex can misread a requirement and a silent drop would hide that. "Fluent Hebrew", "Hebrew is a plus" and Hebrew-language postings are tagged, not dropped: he applied to a Hebrew posting (Madanes #123).
+- **One role per company**: a posting whose employer has an application record in the tracker carries `employer_in_tracker`. A flag, not a drop: a closed earlier application can make a better-matching role worth it, and that is a judgement. Only tracker record lines count (`| 117 | ...` rows and `### 21.` headings), so short names such as Via or Rise do not match unrelated text.
+
+Fit level ("realistic mid-level only") stays with the agent; titles do not say it reliably.
