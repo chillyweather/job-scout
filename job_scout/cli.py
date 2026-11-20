@@ -29,6 +29,8 @@ def _markdown(report: dict[str, Any]) -> str:
         f"New {counts['new']}, updated {counts['updated']}, reopened {counts['reopened']}. "
         f"Skipped: {counts['outside_location']} outside location, {counts['title_filtered']} by title, "
         f"{counts['known_in_notes']} already in notes"
+        + (f", {counts['blocked_company']} from blocked companies" if counts.get("blocked_company") else "")
+        + (f", {counts['hebrew_excluded']} for high-level Hebrew" if counts.get("hebrew_excluded") else "")
         + (f", {counts['permit_excluded']} by work permit." if counts.get("permit_excluded") else "."),
     ]
     if boards["failed"]:
@@ -39,9 +41,17 @@ def _markdown(report: dict[str, Any]) -> str:
         for p in report["postings"]:
             published = (p["published_at"] or "")[:10] or "no date"
             permit = f" · permit: {p['work_permit']['tag']}" if p.get("work_permit") else ""
-            lines.append(f"- [{p['company']} — {p['title']}]({p['url']}) · {p['location']} · {published} · {p['change']}{permit}")
+            hebrew = f" · Hebrew: {p['hebrew']['tag']}" if p.get("hebrew", {}).get("tag", "unstated") != "unstated" else ""
+            lines.append(f"- [{p['company']} — {p['title']}]({p['url']}) · {p['location']} · {published} · {p['change']}{permit}{hebrew}")
             if p.get("work_permit", {}).get("evidence"):
                 lines.append(f"  > {p['work_permit']['evidence']}")
+            if p.get("hebrew", {}).get("evidence"):
+                lines.append(f"  > {p['hebrew']['evidence']}")
+            if p.get("employer_in_tracker"):
+                lines.append(f"  Employer already in tracker: {p['employer_in_tracker']}")
+    if report.get("excluded_by_rule"):
+        lines += ["", "## Removed by a standing rule (check the evidence)", ""]
+        lines += [f"- [{e['company']} — {e['title']}]({e['url']}) · {e['rule']}: {e['evidence']}" for e in report["excluded_by_rule"]]
     if report["closed_since_last_run"]:
         lines += ["", "## Closed since last run (previously reported)", ""]
         lines += [f"- {c['company']} — {c['title']}" for c in report["closed_since_last_run"]]

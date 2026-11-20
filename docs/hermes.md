@@ -18,18 +18,24 @@ It has no schedule of its own and makes no model calls.
 
 ## Daily sweep: what Hermes does
 
+The sweep runs once each morning, Asia/Jerusalem time, before Dima starts work. Keep the schedule it already has; job-scout does not need its own.
+
 Add this as the first step of the existing sweep prompt:
 
 > Run `job-scout poll` in the job-scout folder and read its JSON.
 >
 > 1. If `boards.failed` is not empty, mention each failed board in the run summary. Three or more consecutive failures means the slug probably changed: say so.
-> 2. For each item in `postings`, judge fit against the CV and the direction notes, exactly as for leads found by search. Apply the leads inbox rules: tiers `realistic`, `plausible stretch`, `lead to verify`; skip dream roles, pure title matches, and roles with several hard gaps.
-> 3. Before adding a lead, deduplicate against the inbox and the tracker as usual. job-scout already dropped exact matches, not near duplicates.
-> 4. Write each kept lead to the inbox in its usual format, and add the line `- **Found by:** board poller` (or `web search` for leads found the usual way).
-> 5. A posting with `change: "updated"` or `"reopened"` that is already in the inbox: update that entry's `Last checked` and note what changed. Do not create a second entry.
-> 6. Then run the usual web search for sources job-scout does not cover: LinkedIn-only roles, staffing agencies, AllJobs leads that resolve to an employer page, custom career pages, and Comeet boards.
+> 2. For each item in `postings`, judge fit against the CV and the direction notes, exactly as for leads found by search. Apply the leads inbox rules: tiers `realistic`, `plausible stretch`, `lead to verify`; skip dream roles, pure title matches, and roles with several hard gaps. Realistic mid-level fits only: no stretch for its own sake.
+> 3. Standing rules job-scout has already applied in code: Unframe is never reported, and roles that require native or high-level Hebrew are removed (listed under `excluded_by_rule` with the sentence that matched). Read `excluded_by_rule`: if a sentence plainly does not require high-level Hebrew (for example "Hebrew is a plus"), treat that posting like any other and say so in the summary.
+> 4. `hebrew.tag` on a kept posting: `hebrew_posting` means the description is written in Hebrew, so written Hebrew is likely expected; `mentioned` means fluent or "an advantage". Dima's Hebrew is fluent spoken, reading proficient, writing limited. Put the evidence sentence in the lead's caveat.
+> 5. `employer_in_tracker` means Dima already has an application at that company (he applies to one role per company). Skip the posting unless it is clearly a better match and the earlier application is closed; if you keep it, say which tracker record it collides with.
+> 6. Before adding a lead, deduplicate against the inbox and the tracker as usual. job-scout already dropped exact matches, not near duplicates.
+> 7. Write each kept lead to the inbox in its usual format, and add the line `- **Found by:** board poller` (or `web search` for leads found the usual way). The link is the board's own posting URL; never an AllJobs link.
+> 8. A posting with `change: "updated"` or `"reopened"` that is already in the inbox: update that entry's `Last checked` and note what changed. Do not create a second entry.
+> 9. Then run the usual web search for sources job-scout does not cover: LinkedIn-only roles, staffing agencies, AllJobs leads that resolve to an employer page or LinkedIn, custom career pages, and Comeet boards.
+> 10. Finish with the daily digest, in the inbox's dated `## Sweep notes` section and as the run's final reply: one line with counts (boards read, new postings, leads added by source), then one line per lead added (company, title, tier, link), then failed boards. If nothing was added, say so in one line. Dima reads this; he decides what to apply to.
 >
-> Never change the application tracker.
+> Never change the application tracker, and never apply, contact anyone or submit anything.
 
 ## Weekly: the Europe glance
 

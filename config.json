@@ -4,6 +4,15 @@
   "state_db": "state/job-scout.sqlite",
   "known_files": [],
   "max_description_chars": 8000,
+  "blocked_companies": [
+    "Unframe"
+  ],
+  "hebrew": {
+    "tag": true,
+    "exclude": [
+      "high_required"
+    ]
+  },
   "filters": {
     "locations": {
       "include": [
